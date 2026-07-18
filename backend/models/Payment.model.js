@@ -15,7 +15,7 @@ const paymentSchema = new mongoose.Schema(
       required: true,
     },
 
-    paymentLink: {
+    orderId: {
       type: String,
     },
 
@@ -25,10 +25,12 @@ const paymentSchema = new mongoose.Schema(
       default: "Pending",
     },
 
-    transactionId: {
+    paymentId: {
       type: String,
     },
-
+    signature:{
+      type: String,
+    },
     paymentDate: {
       type: Date,
     },

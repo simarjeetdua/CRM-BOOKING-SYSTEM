@@ -20,7 +20,7 @@ function Payments() {
       const res = await axios.get("/bookings");
       setBookings(res.data);
     } catch (error) {
-      console.error("Error fetching bookings");
+      console.error("Error fetching bookings", error);
     }
   };
 
@@ -29,7 +29,7 @@ function Payments() {
       const res = await axios.get("/payments");
       setPayments(res.data);
     } catch (error) {
-      console.error("Error fetching payments");
+      console.error("Error fetching payments", error);
     }
   };
 
@@ -37,28 +37,60 @@ function Payments() {
     e.preventDefault();
 
     try {
-      await axios.post("/payments/generate", formData);
-      fetchPayments();
+      // Create Razorpay Order
+      const { data } = await axios.post(
+        "/payments/create-order",
+        formData
+      );
 
-      setFormData({
-        booking: "",
-        amount: "",
-      });
+      const options = {
+        key: data.key,
+        amount: data.order.amount,
+        currency: data.order.currency,
+        name: "BookFlow CRM",
+        description: "Booking Payment",
+        order_id: data.order.id,
+
+        handler: async function (response) {
+          try {
+            await axios.post("/payments/verify", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            alert("Payment Successful ✅");
+
+            fetchPayments();
+
+            setFormData({
+              booking: "",
+              amount: "",
+            });
+
+          } catch (err) {
+            console.error(err);
+            alert("Payment verification failed");
+          }
+        },
+
+        prefill: {
+          name: "Customer",
+          email: "customer@example.com",
+        },
+
+        theme: {
+          color: "#2563eb",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+
+      razorpay.open();
+
     } catch (error) {
-      alert("Error generating payment");
-    }
-  };
-
-  const markAsPaid = async (id) => {
-    try {
-      await axios.put(`/payments/${id}`, {
-        status: "Paid",
-        paymentDate: new Date(),
-      });
-
-      fetchPayments();
-    } catch (error) {
-      alert("Error updating payment");
+      console.error(error);
+      alert("Unable to create payment.");
     }
   };
 
@@ -66,19 +98,22 @@ function Payments() {
     <div>
       <h2>Payments</h2>
 
-      {/* Generate Payment Form */}
       <div style={{ marginBottom: "30px" }}>
-        <h3>Generate Payment Link</h3>
+        <h3>Pay Booking</h3>
 
         <form onSubmit={handleSubmit}>
           <select
             value={formData.booking}
             onChange={(e) =>
-              setFormData({ ...formData, booking: e.target.value })
+              setFormData({
+                ...formData,
+                booking: e.target.value,
+              })
             }
             required
           >
             <option value="">Select Booking</option>
+
             {bookings.map((booking) => (
               <option key={booking._id} value={booking._id}>
                 {booking.serviceTitle}
@@ -86,26 +121,38 @@ function Payments() {
             ))}
           </select>
 
-          <br /><br />
+          <br />
+          <br />
 
           <input
             type="number"
             placeholder="Amount"
             value={formData.amount}
             onChange={(e) =>
-              setFormData({ ...formData, amount: e.target.value })
+              setFormData({
+                ...formData,
+                amount: e.target.value,
+              })
             }
             required
           />
 
-          <br /><br />
+          <br />
+          <br />
 
-          <button type="submit">Generate Payment</button>
+          <button
+            type="submit"
+            style={{
+              background: "#2563eb",
+              color: "white",
+            }}
+          >
+            Pay with Razorpay
+          </button>
         </form>
       </div>
 
-      {/* Payments Table */}
-      <h3>All Payments</h3>
+      <h3>Payment History</h3>
 
       <table border="1" cellPadding="10" width="100%">
         <thead>
@@ -113,8 +160,8 @@ function Payments() {
             <th>Booking</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Payment Link</th>
-            <th>Action</th>
+            <th>Payment ID</th>
+            <th>Payment Date</th>
           </tr>
         </thead>
 
@@ -122,30 +169,19 @@ function Payments() {
           {payments.map((payment) => (
             <tr key={payment._id}>
               <td>{payment.booking?.serviceTitle}</td>
+
               <td>₹{payment.amount}</td>
+
               <td>{payment.status}</td>
+
+              <td>{payment.paymentId || "-"}</td>
+
               <td>
-                {payment.paymentLink ? (
-                  <a
-                    href={payment.paymentLink}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open Link
-                  </a>
-                ) : (
-                  "N/A"
-                )}
-              </td>
-              <td>
-                {payment.status !== "Paid" && (
-                  <button
-                    onClick={() => markAsPaid(payment._id)}
-                    style={{ background: "green", color: "white" }}
-                  >
-                    Mark Paid
-                  </button>
-                )}
+                {payment.paymentDate
+                  ? new Date(
+                      payment.paymentDate
+                    ).toLocaleDateString()
+                  : "-"}
               </td>
             </tr>
           ))}
