@@ -3,7 +3,7 @@ import Payment from "../models/Payment.model.js";
 import Booking from "../models/Booking.model.js";
 import generateInvoice from "../utils/generateInvoice.js";
 
-// Get All Invoices
+// fetching All Invoices
 export const getInvoices = async (req, res) => {
   try {
     const invoices = await Invoice.find()

@@ -1,4 +1,4 @@
-// models/Client.js
+
 
 import mongoose from "mongoose";
 

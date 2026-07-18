@@ -1,4 +1,4 @@
-// models/Offer.js
+
 
 import mongoose from "mongoose";
 

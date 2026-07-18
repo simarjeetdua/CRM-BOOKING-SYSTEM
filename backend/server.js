@@ -15,7 +15,7 @@ import invoiceRoutes from "./routes/invoiceRoutes.js";
 
 dotenv.config();
 
-// Connect Database FIRST
+
 await connectDB();
 
 const app = express();

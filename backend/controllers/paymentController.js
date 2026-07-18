@@ -4,9 +4,6 @@ import razorpay from "../config/razorpay.js";
 import { createInvoice } from "./invoiceController.js";
 import crypto from "crypto";
 
-/* ==========================================
-   CREATE RAZORPAY ORDER
-========================================== */
 
 export const createOrder = async (req, res) => {
   try {
@@ -60,9 +57,7 @@ export const createOrder = async (req, res) => {
   }
 };
 
-/* ==========================================
-   VERIFY PAYMENT
-========================================== */
+
 
 export const verifyPayment = async (req, res) => {
   try {
@@ -121,9 +116,7 @@ export const verifyPayment = async (req, res) => {
   }
 };
 
-/* ==========================================
-   GET ALL PAYMENTS
-========================================== */
+
 
 export const getPayments = async (req, res) => {
   try {

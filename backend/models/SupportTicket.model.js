@@ -1,4 +1,4 @@
-// models/SupportTicket.js
+
 
 import mongoose from "mongoose";
 

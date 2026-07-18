@@ -4,19 +4,14 @@ import User from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 
 
-/* ---------------------------------------------------
-   Generate JWT Token
---------------------------------------------------- */
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 };
 
-/* ---------------------------------------------------
-   Register User
-   POST /api/auth/register
---------------------------------------------------- */
+
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -60,10 +55,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-/* ---------------------------------------------------
-   Login User
-   POST /api/auth/login
---------------------------------------------------- */
+
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -108,10 +100,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-/* ---------------------------------------------------
-   Get Logged In User Profile
-   GET /api/auth/profile
---------------------------------------------------- */
+
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
@@ -129,10 +118,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-/* ---------------------------------------------------
-   Update User Profile
-   PUT /api/auth/profile
---------------------------------------------------- */
+
 export const updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);

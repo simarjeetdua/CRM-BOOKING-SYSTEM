@@ -1,4 +1,4 @@
-// models/Booking.js
+
 
 import mongoose from "mongoose";
 

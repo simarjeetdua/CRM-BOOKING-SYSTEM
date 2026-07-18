@@ -1,4 +1,4 @@
-// models/Briefing.js
+
 
 import mongoose from "mongoose";
 
