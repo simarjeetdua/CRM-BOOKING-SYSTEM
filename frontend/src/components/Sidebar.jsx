@@ -19,6 +19,7 @@ function Sidebar() {
         <Link to="/offers" style={{ color: "white" }}>Offers</Link>
         <Link to="/payments" style={{ color: "white" }}>Payments</Link>
         <Link to="/support" style={{ color: "white" }}>Support</Link>
+        <Link to="/invoices" style={{ color: "white" }}>Invoices</Link>
       </nav>
     </div>
   );

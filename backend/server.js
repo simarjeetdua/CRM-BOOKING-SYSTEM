@@ -11,6 +11,7 @@ import briefingRoutes from "./routes/briefingRoutes.js";
 import offerRoutes from "./routes/offerRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import supportRoutes from "./routes/supportRoutes.js";
+import invoiceRoutes from "./routes/invoiceRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use("/api/briefings", briefingRoutes);
 app.use("/api/offers", offerRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/support", supportRoutes);
+app.use("/api/invoices", invoiceRoutes);
 
 const PORT = process.env.PORT || 5000;
 

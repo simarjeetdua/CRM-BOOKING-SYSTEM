@@ -1,6 +1,7 @@
 import Payment from "../models/Payment.model.js";
 import Booking from "../models/Booking.model.js";
 import razorpay from "../config/razorpay.js";
+import { createInvoice } from "./invoiceController.js";
 import crypto from "crypto";
 
 /* ==========================================
@@ -102,6 +103,7 @@ export const verifyPayment = async (req, res) => {
     payment.paymentDate = new Date();
 
     await payment.save();
+    await createInvoice(payment._id);
 
     return res.status(200).json({
       success: true,
