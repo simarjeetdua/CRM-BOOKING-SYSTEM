@@ -1,0 +1,154 @@
+
+.home-page {
+  min-height: 100vh;
+  color: #172033;
+  background: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+.home-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 8%;
+  border-bottom: 1px solid #e8edf3;
+}
+
+.home-brand {
+  font-size: 22px;
+  font-weight: 800;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.home-nav-links,
+.home-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.home-nav-links a,
+.home-secondary,
+.home-footer a {
+  color: #374151;
+  text-decoration: none;
+}
+
+.home-cta {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #ffffff !important;
+  background: #4f46e5;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-hero {
+  max-width: 900px;
+  margin: auto;
+  padding: 100px 24px 90px;
+  text-align: center;
+}
+
+.home-eyebrow {
+  color: #4f46e5;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.home-hero h1 {
+  margin: 22px 0;
+  font-size: clamp(36px, 6vw, 58px);
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+}
+
+.home-description {
+  max-width: 700px;
+  margin: 0 auto 28px;
+  color: #64748b;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.home-actions {
+  justify-content: center;
+}
+
+.home-features {
+  padding: 70px 8%;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.home-features h2,
+.home-bottom-cta h2 {
+  font-size: clamp(27px, 4vw, 38px);
+}
+
+.home-features > p,
+.home-bottom-cta p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.home-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 1000px;
+  margin: 40px auto 0;
+  text-align: left;
+}
+
+.home-feature-card {
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.home-feature-card p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.home-bottom-cta {
+  padding: 75px 24px;
+  text-align: center;
+}
+
+.home-bottom-cta p {
+  margin-bottom: 26px;
+}
+
+.home-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 8%;
+  border-top: 1px solid #e8edf3;
+}
+
+@media (max-width: 600px) {
+  .home-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .home-nav-links {
+    gap: 15px;
+  }
+
+  .home-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero {
+    padding-top: 65px;
+  }
+}

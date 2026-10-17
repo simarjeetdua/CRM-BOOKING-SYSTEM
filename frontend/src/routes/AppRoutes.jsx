@@ -1,6 +1,14 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import { useAuth } from "../context/AuthContext";
 
+import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Dashboard from "../pages/Dashboard";
@@ -19,46 +27,87 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Default Route */}
+        {/* Public SEO Landing Page */}
+        <Route path="/" element={<Home />} />
+
+        {/* Public Authentication Routes */}
         <Route
-          path="/"
+          path="/signup"
           element={
             user ? (
               <Navigate to="/dashboard" replace />
             ) : (
-              <Navigate to="/signup" replace />
+              <Signup />
             )
           }
         />
 
-        {/* Public Routes */}
-        <Route
-          path="/signup"
-          element={!user ? <Signup /> : <Navigate to="/dashboard" replace />}
-        />
-
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/dashboard" replace />}
+          element={
+            user ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Login />
+            )
+          }
         />
 
-        {/* Protected Routes */}
+        {/* Protected CRM Routes */}
         <Route
-          element={user ? <Layout /> : <Navigate to="/login" replace />}
+          element={
+            user ? (
+              <Layout />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
         >
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/clients" element={<Clients />} />
-          <Route path="/bookings" element={<Bookings />} />
-          <Route path="/offers" element={<Offers />} />
-          <Route path="/payments" element={<Payments />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/support" element={<Support />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
+
+          <Route
+            path="/clients"
+            element={<Clients />}
+          />
+
+          <Route
+            path="/bookings"
+            element={<Bookings />}
+          />
+
+          <Route
+            path="/offers"
+            element={<Offers />}
+          />
+
+          <Route
+            path="/payments"
+            element={<Payments />}
+          />
+
+          <Route
+            path="/invoices"
+            element={<Invoices />}
+          />
+
+          <Route
+            path="/support"
+            element={<Support />}
+          />
         </Route>
 
-        {/* 404 */}
+        {/* Handle Unknown Routes */}
         <Route
           path="*"
-          element={<Navigate to={user ? "/dashboard" : "/login"} replace />}
+          element={
+            <Navigate
+              to={user ? "/dashboard" : "/"}
+              replace
+            />
+          }
         />
       </Routes>
     </BrowserRouter>
